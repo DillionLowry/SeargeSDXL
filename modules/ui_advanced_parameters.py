@@ -58,7 +58,7 @@ class SeargeAdvancedParameters:
 
     @staticmethod
     def create_dict(dynamic_cfg_method, dynamic_cfg_factor, refiner_detail_boost, contrast_factor, saturation_factor,
-                    latent_detailer):
+                    latent_detailer, clip_skip):
         return {
             UI.F_DYNAMIC_CFG_METHOD: dynamic_cfg_method,
             UI.F_DYNAMIC_CFG_FACTOR: round(dynamic_cfg_factor, 3),
@@ -66,10 +66,11 @@ class SeargeAdvancedParameters:
             UI.F_CONTRAST_FACTOR: round(contrast_factor, 3),
             UI.F_SATURATION_FACTOR: round(saturation_factor, 3),
             UI.F_LATENT_DETAILER: latent_detailer,
+            UI.F_CLIP_SKIP: clip_skip,
         }
 
     def get(self, dynamic_cfg_method, dynamic_cfg_factor, refiner_detail_boost, contrast_factor, saturation_factor,
-            latent_detailer, data=None):
+            latent_detailer, clip_skip, data=None):
         if data is None:
             data = {}
 
@@ -80,6 +81,7 @@ class SeargeAdvancedParameters:
             contrast_factor,
             saturation_factor,
             latent_detailer,
+            clip_skip,
         )
 
         return (data,)
