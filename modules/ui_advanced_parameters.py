@@ -44,6 +44,8 @@ class SeargeAdvancedParameters:
                 "contrast_factor": ("FLOAT", {"default": 0.0, "min": 0.0, "max": 1.0, "step": 0.05},),
                 "saturation_factor": ("FLOAT", {"default": 0.0, "min": 0.0, "max": 1.0, "step": 0.05},),
                 "latent_detailer": (UI.LATENT_DETAILERS, {"default": UI.NONE},),
+                "base_clip_skip": ("INT", {"default": -1, "min": -24, "max": -1, "step": 1},),
+                "refiner_clip_skip": ("INT", {"default": -1, "min": -24, "max": -1, "step": 1},),
             },
             "optional": {
                 "data": ("SRG_DATA_STREAM",),
@@ -58,7 +60,7 @@ class SeargeAdvancedParameters:
 
     @staticmethod
     def create_dict(dynamic_cfg_method, dynamic_cfg_factor, refiner_detail_boost, contrast_factor, saturation_factor,
-                    latent_detailer, clip_skip):
+                    latent_detailer, base_clip_skip, refiner_clip_skip):
         return {
             UI.F_DYNAMIC_CFG_METHOD: dynamic_cfg_method,
             UI.F_DYNAMIC_CFG_FACTOR: round(dynamic_cfg_factor, 3),
@@ -66,11 +68,12 @@ class SeargeAdvancedParameters:
             UI.F_CONTRAST_FACTOR: round(contrast_factor, 3),
             UI.F_SATURATION_FACTOR: round(saturation_factor, 3),
             UI.F_LATENT_DETAILER: latent_detailer,
-            UI.F_CLIP_SKIP: clip_skip,
+            UI.F_BASE_CLIP_SKIP: base_clip_skip,
+            UI.F_REFINER_CLIP_SKIP: refiner_clip_skip,
         }
 
     def get(self, dynamic_cfg_method, dynamic_cfg_factor, refiner_detail_boost, contrast_factor, saturation_factor,
-            latent_detailer, clip_skip, data=None):
+            latent_detailer, base_clip_skip, refiner_clip_skip, data=None):
         if data is None:
             data = {}
 
@@ -81,7 +84,8 @@ class SeargeAdvancedParameters:
             contrast_factor,
             saturation_factor,
             latent_detailer,
-            clip_skip,
+            base_clip_skip,
+            refiner_clip_skip,
         )
 
         return (data,)

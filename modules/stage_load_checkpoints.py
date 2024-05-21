@@ -59,8 +59,11 @@ class SeargeStageLoadCheckpoints:
         if not access.is_pipeline_enabled():
             pass
 
-        clip_skip = access.get_active_setting(UI.S_ADVANCED_PARAMETERS, UI.F_CLIP_SKIP, -1)
-        clip_skip_changed = access.setting_changed(UI.S_ADVANCED_PARAMETERS, UI.F_CLIP_SKIP)
+        base_clip_skip = access.get_active_setting(UI.S_ADVANCED_PARAMETERS, UI.F_BASE_CLIP_SKIP, -1)
+        base_clip_skip_changed = access.setting_changed(UI.S_ADVANCED_PARAMETERS, UI.F_BASE_CLIP_SKIP)
+        
+        refiner_clip_skip = access.get_active_setting(UI.S_ADVANCED_PARAMETERS, UI.F_REFINER_CLIP_SKIP, -1)
+        refiner_clip_skip_changed = access.setting_changed(UI.S_ADVANCED_PARAMETERS, UI.F_REFINER_CLIP_SKIP)
         
         freeu_mode = access.get_active_setting(UI.S_FREEU, UI.F_FREEU_MODE, UI.NONE)
         freeu_changed = access.setting_changed(UI.S_FREEU, UI.F_FREEU_MODE)
@@ -137,11 +140,11 @@ class SeargeStageLoadCheckpoints:
         base_clip = base_checkpoint[1]
         base_vae = base_checkpoint[2]
         
-        # Apply clip skip
-        if clip_skip <-1:
-            base_clip.clip_layer(clip_skip)
-
-        if base_changed or freeu_changed or clip_skip_changed:
+        # Apply base clip skip
+        if base_clip_skip_changed:
+            NodeWrapper.clip_set_last_layer.set_last_layer(base_clip, base_clip_skip)
+        
+        if base_changed or freeu_changed or base_clip_skip_changed:
             access.update_in_pipeline(Names.P_BASE_MODEL, base_model, True)
             access.update_in_pipeline(Names.P_BASE_CLIP, base_clip, True)
             access.update_in_pipeline(Names.P_BASE_VAE, base_vae, True)
@@ -171,8 +174,13 @@ class SeargeStageLoadCheckpoints:
                 refiner_model = NodeWrapper.freeu_v2.patch(refiner_model, b1, b2, s1, s2)[0]
         refiner_clip = refiner_checkpoint[1]
         refiner_vae = refiner_checkpoint[2]
+        
+        # Apply refiner clip skip
+        if refiner_clip_skip_changed:
+            NodeWrapper.clip_set_last_layer.set_last_layer(refiner_clip, refiner_clip_skip)
 
-        if refiner_changed or freeu_changed:
+
+        if refiner_changed or freeu_changed or refiner_clip_skip_changed:
             access.update_in_pipeline(Names.P_REFINER_MODEL, refiner_model, True)
             access.update_in_pipeline(Names.P_REFINER_CLIP, refiner_clip, True)
             access.update_in_pipeline(Names.P_REFINER_VAE, refiner_vae, True)

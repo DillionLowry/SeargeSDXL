@@ -43,6 +43,7 @@ from .ui import UI
 
 class NodeWrapper:
     checkpoint_loader = nodes.CheckpointLoaderSimple()
+    clip_set_last_layer = nodes.CLIPSetLastLayer()
     clipvision_encoder = nodes.CLIPVisionEncode()
     clipvision_loader = nodes.CLIPVisionLoader()
     controlnet_advanced = nodes.ControlNetApplyAdvanced()

@@ -81,7 +81,8 @@ class Names:
     F_CN_RECOLOR_MODEL = "cn_recolor_model"
     F_CN_SKETCH_MODEL = "cn_sketch_model"
     F_CN_CUSTOM_MODEL = "cn_custom_model"
-    F_CLIP_SKIP = "clip_skip"
+    F_BASE_CLIP_SKIP = "base_clip_skip"
+    F_REFINER_CLIP_SKIP = "refiner_clip_skip"
 
     # apply loras
     S_LOADED_LORAS = "loaded_loras"

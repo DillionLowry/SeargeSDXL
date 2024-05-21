@@ -469,7 +469,8 @@ class UI:
     F_CONTRAST_FACTOR = "contrast_factor"
     F_SATURATION_FACTOR = "saturation_factor"
     F_LATENT_DETAILER = "latent_detailer"
-    F_CLIP_SKIP = "clip_skip"
+    F_BASE_CLIP_SKIP = "base_clip_skip"
+    F_REFINER_CLIP_SKIP = "refiner_clip_skip"
 
     # UI: Image Saving
     # --------------------------------------------------------------------------------
